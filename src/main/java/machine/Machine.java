@@ -35,7 +35,7 @@ public class Machine {
         int produit = programme.get(indexDuPremierNombre) * programme.get(indexDuDeuxiemeNombre);
         programme.set(indexDuProduit, produit);
     }
-//modif
+//modification
     private void opcode3Input() {
         Scanner saisie = new Scanner(System.in);
         int entierSaisi = saisie.nextInt();
