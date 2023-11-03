@@ -3,6 +3,7 @@ package day2;
 import file.FileUtils;
 import machine.CodeInconnuException;
 import machine.Machine;
+import machine.ModeInconnuException;
 import machine.PointeurException;
 
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class Day2Part1 {
 
 // List<String> liste = Arrays.asList(input.split("s"))
 
-    public String part(String path) throws IOException,PointeurException, CodeInconnuException {
+    public String part(String path) throws IOException, PointeurException, CodeInconnuException, ModeInconnuException {
         List<Integer> integerList = recupererListeEntiers(path);
         Machine machine = new Machine(integerList);
         machine.execute();
