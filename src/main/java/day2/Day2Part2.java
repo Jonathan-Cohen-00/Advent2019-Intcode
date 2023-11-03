@@ -3,6 +3,7 @@ package day2;
 import day.DayPart;
 import machine.CodeInconnuException;
 import machine.Machine;
+import machine.ModeInconnuException;
 import machine.PointeurException;
 
 import java.io.IOException;
@@ -13,7 +14,7 @@ import static day2.Day2Part1.recupererListeEntiers;
 public class Day2Part2 implements DayPart {
 
 
-    public String part(String path) throws IOException, PointeurException, CodeInconnuException {
+    public String part(String path) throws IOException, PointeurException, CodeInconnuException, ModeInconnuException {
         List<Integer> integerList = recupererListeEntiers(path);
         int indexNom = 1;
         int indexVerbe = 2;

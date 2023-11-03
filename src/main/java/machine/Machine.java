@@ -1,6 +1,8 @@
 package machine;
 
 import java.util.List;
+import java.util.Scanner;
+import static file.FileUtils.separerEntierEnChiffres;
 
 public class Machine {
     private final List<Integer> programme;
@@ -9,8 +11,16 @@ public class Machine {
     public Machine(List<Integer> programme) {
         this.programme = programme;
     }
-
-    public  void opcode1Addition() {
+//public void opcode1AdditionRemastered (){
+//        List<Integer> liste = separerEntierEnChiffres(programme.get(compteur));
+//        if (liste.size() == 2 ){
+//            opcode1Addition();
+//        }
+//        if (liste.size()== 3){
+//
+//        }qzdqzd
+//}
+    public void opcode1Addition() {
         int indexDuPremierNombre = programme.get(compteur + 1);
         int indexDuDeuxiemeNombre = programme.get(compteur + 2);
         int indexDeLaSomme = programme.get(compteur + 3);
@@ -26,11 +36,22 @@ public class Machine {
         programme.set(indexDuProduit, produit);
     }
 
-    public void execute() throws PointeurException, CodeInconnuException {
+    private void opcode3Input() {
+        Scanner saisie = new Scanner(System.in);
+        int entierSaisi = saisie.nextInt();
+        programme.set(programme.get(compteur + 1), entierSaisi);
+    }
 
-        generalLoop: while (true) {
-            if (compteur < programme.size()&& compteur>=0) {
+    private void opcode4Output() {
+        System.out.println(programme.get(programme.get(compteur + 1)));
+    }
+
+    public void execute() throws PointeurException, CodeInconnuException, ModeInconnuException {
+        generalLoop:
+        while (true) {
+            if (compteur < programme.size() && compteur >= 0) {
                 OpCode code = OpCode.opCodeFromInt(programme.get(compteur));
+//                ModeParametre modeParametre = ModeParametre.modeParametreFromInt(programme.get(compteur));
                 switch (code) {
                     case ADD -> {
                         opcode1Addition();
@@ -42,6 +63,9 @@ public class Machine {
                     }
                     case END -> {
                         break generalLoop;
+                    }
+                    case INPUT -> {
+
                     }
                 }
             } else {
