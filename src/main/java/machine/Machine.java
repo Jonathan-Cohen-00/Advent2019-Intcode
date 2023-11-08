@@ -73,4 +73,4 @@ public class Machine {
             }
         }
     }
-}
+} //on démarre
