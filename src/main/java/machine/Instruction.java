@@ -1,9 +1,6 @@
 package machine;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Instruction {
     private final List<Integer> programme;
@@ -48,15 +45,18 @@ public class Instruction {
     public int getValeurTroisiemeParametre() throws ModeInconnuException {
         return getValeurParametre(modeParametre3, compteur + 3);
     }
+
     public int getIndiceEcriture() {
         switch (opCode) {
             case INPUT -> {
                 return programme.get(compteur + 1);
             }
-            default -> {
+            case ADD, MULTIPLY, EQUALS, LESSTHAN-> {
                 return programme.get(compteur + 3);
             }
         }
+        System.out.println("indiceEcritureMauvais");
+        return -9999999;
     }
 }
 

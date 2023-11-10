@@ -1,9 +1,7 @@
 package machine;
 
-import java.util.function.BiFunction;
-
 public enum OpCode {
-    ADD, MULTIPLY, INPUT, OUTPUT, END, JUMPifTRUE, JUMPifFalse, LESSTHAN,EQUALS;
+    ADD, MULTIPLY, INPUT, OUTPUT, END, JUMPifTRUE, JUMPifFalse, LESSTHAN, EQUALS;
 
     public static OpCode opCodeFromInt(int entier) throws CodeInconnuException {
         return switch (entier) {

@@ -45,7 +45,7 @@ public class Machine {
                         } else {
                             nextInt = nextInput;
                         }
-                        int positionNextInt = programme.get(compteur + 1);
+                        int positionNextInt = instruction.getIndiceEcriture();
                         programme.set(positionNextInt, nextInt);
                         compteur += 2;
                     }
@@ -53,6 +53,34 @@ public class Machine {
                         int output = instruction.getValeurPremierParametre();
                         System.out.println(output);
                         compteur += 2;
+                    }
+                    case JUMPifTRUE -> {
+                        if ( instruction.getValeurPremierParametre()!=0){
+                            compteur = instruction.getValeurDeuxiemeParametre();
+                        }
+                        else compteur +=3;
+                    }
+                    case JUMPifFalse -> {
+                        if ( instruction.getValeurPremierParametre()==0){
+                            compteur = instruction.getValeurDeuxiemeParametre();
+                        }
+                        else compteur+=3;
+                    }
+                    case LESSTHAN -> {
+                        if (instruction.getValeurPremierParametre() < instruction.getValeurDeuxiemeParametre()) {
+                            programme.set(instruction.getIndiceEcriture(), 1);
+                        } else {
+                            programme.set(instruction.getIndiceEcriture(), 0);
+                        }
+                        compteur += 4;
+                    }
+                    case EQUALS -> {
+                        if (instruction.getValeurPremierParametre() == instruction.getValeurDeuxiemeParametre()) {
+                            programme.set(instruction.getIndiceEcriture(), 1);
+                        } else {
+                            programme.set(instruction.getIndiceEcriture(), 0);
+                        }
+                        compteur += 4;
                     }
                     case END -> {
                         break generalLoop;
