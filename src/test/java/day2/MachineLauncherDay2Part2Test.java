@@ -11,7 +11,7 @@ import utils.MachineLauncher;
 import java.io.IOException;
 import java.util.List;
 
-import static file.FileUtils.recupererListeEntiers;
+import static parsers.Parsers.recupererListeEntiers;
 
 public class MachineLauncherDay2Part2Test implements MachineLauncher {
 

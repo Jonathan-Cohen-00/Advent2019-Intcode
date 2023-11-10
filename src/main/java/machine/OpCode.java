@@ -3,7 +3,7 @@ package machine;
 import java.util.function.BiFunction;
 
 public enum OpCode {
-    ADD, MULTIPLY, INPUT, OUTPUT, END;
+    ADD, MULTIPLY, INPUT, OUTPUT, END, JUMPifTRUE, JUMPifFalse, LESSTHAN,EQUALS;
 
     public static OpCode opCodeFromInt(int entier) throws CodeInconnuException {
         return switch (entier) {
@@ -11,6 +11,10 @@ public enum OpCode {
             case 2 -> MULTIPLY;
             case 3 -> INPUT;
             case 4 -> OUTPUT;
+            case 5 -> JUMPifTRUE;
+            case 6 -> JUMPifFalse;
+            case 7 -> LESSTHAN;
+            case 8 -> EQUALS;
             case 99 -> END;
             default -> throw new CodeInconnuException(entier);
         };

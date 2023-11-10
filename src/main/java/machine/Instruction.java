@@ -8,35 +8,19 @@ import java.util.regex.Pattern;
 public class Instruction {
     private final List<Integer> programme;
     private final int compteur;
+    private final OpCode opCode;
     private ModeParametre modeParametre1 = ModeParametre.POSITION_MODE;
     private ModeParametre modeParametre2 = ModeParametre.POSITION_MODE;
     private ModeParametre modeParametre3 = ModeParametre.POSITION_MODE;
-    private final OpCode opCode;
-    private final List<Integer> nombresXXX;
 
-    public ModeParametre getModeParametre2() {
-        return modeParametre2;
-    }
 
-    public Instruction(Integer integer, List<Integer> programme, Integer compteurXXX) throws CodeInconnuException, ModeInconnuException {
+    public Instruction(Integer integer, List<Integer> programme, Integer compteur) throws CodeInconnuException, ModeInconnuException {
         this.programme = programme;
-        this.compteur = compteurXXX;
-        List<Integer> nombres = separerEntierEnChiffres(integer);
-        this.nombresXXX = nombres;
-        if (nombres.size() == 1) {
-            this.opCode = OpCode.opCodeFromInt(nombres.get(0));
-        } else {
-            this.opCode = OpCode.opCodeFromInt(nombres.get(nombres.size() - 1) + 10 * nombres.get(nombres.size() - 2));
-            if (nombres.size() > 2) {
-                this.modeParametre1 = ModeParametre.modeParametreFromInt(nombres.get(nombres.size() - 3));
-            }
-            if (nombres.size() > 3) {
-                this.modeParametre2 = ModeParametre.modeParametreFromInt(nombres.get(nombres.size() - 4));
-            }
-            if (nombres.size() > 4) {
-                this.modeParametre3 = ModeParametre.modeParametreFromInt(nombres.get(nombres.size() - 5));
-            }
-        }
+        this.compteur = compteur;
+        this.opCode = OpCode.opCodeFromInt(integer % 100);
+        this.modeParametre1 = ModeParametre.modeParametreFromInt(integer % 1000 / 100);
+        this.modeParametre2 = ModeParametre.modeParametreFromInt(integer % 10000 / 1000);
+        this.modeParametre3 = ModeParametre.modeParametreFromInt(integer / 10000);
     }
 
     private int getValeurParametre(ModeParametre modeParametre, int indiceParametre) throws ModeInconnuException {
@@ -62,25 +46,12 @@ public class Instruction {
     }
 
     public int getValeurTroisiemeParametre() throws ModeInconnuException {
-        return  getValeurParametre(modeParametre3, compteur + 3);
+        return getValeurParametre(modeParametre3, compteur + 3);
     }
-
-
-    private List<Integer> separerEntierEnChiffres(int nb) {
-        String nbEnString = String.valueOf(nb);
-        List<Integer> listeDesChiffres = new ArrayList<>();
-        Pattern chiffreUniquePattern = Pattern.compile("([0-9])");
-        Matcher chiffreUniqueMatcher = chiffreUniquePattern.matcher(nbEnString);
-        while (chiffreUniqueMatcher.find()) {
-            listeDesChiffres.add(Integer.valueOf(chiffreUniqueMatcher.group(1)));
-        }
-        return listeDesChiffres;
-    }
-
     public int getIndiceEcriture() {
         switch (opCode) {
             case INPUT -> {
-                return programme.get(compteur+1);
+                return programme.get(compteur + 1);
             }
             default -> {
                 return programme.get(compteur + 3);
