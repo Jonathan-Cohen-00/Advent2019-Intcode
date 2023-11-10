@@ -21,21 +21,3 @@ public class Parsers {
         return integerList;
     }
 }
-
-//    public static List<Integer> separerEntierEnChiffres(int nb) {
-//        String nbEnString = String.valueOf(nb);
-//        List<Integer> listeDesChiffres = new ArrayList<>();
-//        Pattern chiffreUniquePattern = Pattern.compile("([0-9])");
-//        Matcher chiffreUniqueMatcher = chiffreUniquePattern.matcher(nbEnString);
-//        while (chiffreUniqueMatcher.find()) {
-//            listeDesChiffres.add(Integer.valueOf(chiffreUniqueMatcher.group(1)));
-//        }
-//        return listeDesChiffres;
-//    }
-//
-//    public static List<Integer> recupererListeEntiers2(String path) throws IOException {
-//        String input = Files.readString(Path.of(path));
-//        String[] inputSansVirugle = input.split(",");
-//        List<String> liste = Arrays.asList(inputSansVirugle);
-//        return liste.stream().map(Integer::valueOf).toList();
-//    }
