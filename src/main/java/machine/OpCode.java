@@ -1,5 +1,7 @@
 package machine;
 
+import java.util.function.BiFunction;
+
 public enum OpCode {
     ADD, MULTIPLY, INPUT, OUTPUT, END;
 
