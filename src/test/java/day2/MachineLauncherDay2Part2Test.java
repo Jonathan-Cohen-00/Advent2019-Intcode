@@ -1,20 +1,26 @@
 package day2;
 
-import day.DayPart;
 import machine.CodeInconnuException;
 import machine.Machine;
 import machine.ModeInconnuException;
 import machine.PointeurException;
+import org.junit.Assert;
+import org.junit.Test;
+import utils.MachineLauncher;
 
 import java.io.IOException;
 import java.util.List;
 
-import static day2.Day2Part1.recupererListeEntiers;
+import static file.FileUtils.recupererListeEntiers;
 
-public class Day2Part2 implements DayPart {
+public class MachineLauncherDay2Part2Test implements MachineLauncher {
 
+    @Test
+    public void testd2p2() throws Exception {
+        Assert.assertEquals(day2Part2Scenario("src/main/resources/Day2Part2-Input"), "6577");
+    }
 
-    public String part(String path) throws IOException, PointeurException, CodeInconnuException, ModeInconnuException {
+    public String day2Part2Scenario(String path) throws IOException, PointeurException, CodeInconnuException, ModeInconnuException {
         List<Integer> integerList = recupererListeEntiers(path);
         int indexNom = 1;
         int indexVerbe = 2;
@@ -22,7 +28,7 @@ public class Day2Part2 implements DayPart {
             for (int verbe = 0; verbe <= 99; verbe++) {
                 integerList.set(indexNom, nom);
                 integerList.set(indexVerbe, verbe);
-                Machine machine = new Machine (integerList);
+                Machine machine = new Machine(integerList);
                 machine.execute();
                 if (integerList.get(0) == 19690720) {
                     System.out.println("nom = " + nom + "    verbe = " + verbe);

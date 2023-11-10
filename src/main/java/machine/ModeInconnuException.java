@@ -8,6 +8,7 @@ public class ModeInconnuException extends Exception {
         this.modeInconnu = modeInconnu;
     }
 
+
     public int getModeInconnu() {
         return modeInconnu;
     }

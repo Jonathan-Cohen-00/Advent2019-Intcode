@@ -13,18 +13,27 @@ public class FileUtils {
         return Files.readAllLines(Path.of(path));
     }
 
+
     public static String lireUneSeuleLigneDuFichier(String path) throws IOException {
         return Files.readString(Path.of(path));
     }
 
-    public static List<Integer> separerEntierEnChiffres(int nb) {
-        String nbEnString = String.valueOf(nb);
-        List<Integer> listeDesChiffres = new ArrayList<>();
-        Pattern chiffreUniquePattern = Pattern.compile("([0-9])");
-        Matcher chiffreUniqueMatcher = chiffreUniquePattern.matcher(nbEnString);
-        while (chiffreUniqueMatcher.find()) {
-            listeDesChiffres.add(Integer.valueOf(chiffreUniqueMatcher.group(1)));
+    public static List<Integer> recupererListeEntiers(String path) throws IOException {
+        String input = lireUneSeuleLigneDuFichier(path);
+        Pattern parserPattern = Pattern.compile("(-?[0-9]+),?");
+        List<Integer> integerList = new ArrayList<>();
+        Matcher parserMatcher = parserPattern.matcher(input);
+        while (parserMatcher.find()) {
+            integerList.add(Integer.parseInt(parserMatcher.group(1)));
         }
-        return listeDesChiffres;
+        return integerList;
     }
+
 }
+//       faire liste d entiers a partir de liste de string
+//        public void test(List<String> liste){
+//        liste.stream().map(Integer::parseInt).toList();
+//    }
+//
+// List<String> liste = Arrays.asList(input.split("s"))
+
