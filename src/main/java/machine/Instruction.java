@@ -3,60 +3,51 @@ package machine;
 import java.util.List;
 
 public class Instruction {
-    private final List<Integer> programme;
+    private final List<Long> programme;
     private final int compteur;
+    private final int relativeBase;
     private final OpCode opCode;
-    private ModeParametre modeParametre1 = ModeParametre.POSITION_MODE;
-    private ModeParametre modeParametre2 = ModeParametre.POSITION_MODE;
-    private ModeParametre modeParametre3 = ModeParametre.POSITION_MODE;
+    private final ModeParametre modeParametre1;
+    private final ModeParametre modeParametre2;
+    private final ModeParametre modeParametre3;
 
 
-    public Instruction(Integer integer, List<Integer> programme, Integer compteur) throws CodeInconnuException, ModeInconnuException {
+    public Instruction(Integer integer, List<Long> programme, Integer compteur, Integer relativeBase) throws CodeInconnuException, ModeInconnuException {
         this.programme = programme;
         this.compteur = compteur;
+        this.relativeBase = relativeBase;
         this.opCode = OpCode.opCodeFromInt(integer % 100);
         this.modeParametre1 = ModeParametre.modeParametreFromInt(integer % 1000 / 100);
         this.modeParametre2 = ModeParametre.modeParametreFromInt(integer % 10000 / 1000);
         this.modeParametre3 = ModeParametre.modeParametreFromInt(integer / 10000);
     }
 
-    private int getValeurParametre(ModeParametre modeParametre, int indiceParametre) throws ModeInconnuException {
+    private int getIndiceReelParametre(ModeParametre modeParametre, int indiceParametre) throws ModeInconnuException {
         if (modeParametre.equals(ModeParametre.IMMEDIATE_MODE)) {
-            return programme.get(indiceParametre);
+            return indiceParametre;
         } else if (modeParametre.equals(ModeParametre.POSITION_MODE)) {
-            int pointeur = programme.get(indiceParametre);
-            return programme.get(pointeur);
+            return Math.toIntExact(programme.get(indiceParametre));
+        } else if (modeParametre.equals(ModeParametre.RELATIVE_MODE)) {
+            return Math.toIntExact(programme.get(indiceParametre)) + relativeBase;
         }
         throw new ModeInconnuException(100);
     }
 
     public OpCode getOpCode() {
-        return opCode;
+        return this.opCode;
     }
 
-    public int getValeurPremierParametre() throws ModeInconnuException {
-        return getValeurParametre(modeParametre1, compteur + 1);
+    public int getIndiceReelPremierParametre() throws ModeInconnuException {
+        return getIndiceReelParametre(modeParametre1, compteur + 1);
     }
 
-    public int getValeurDeuxiemeParametre() throws ModeInconnuException {
-        return getValeurParametre(modeParametre2, compteur + 2);
+    public int getIndiceReelDeuxiemeParametre() throws ModeInconnuException {
+        return getIndiceReelParametre(modeParametre2, compteur + 2);
     }
 
-    public int getValeurTroisiemeParametre() throws ModeInconnuException {
-        return getValeurParametre(modeParametre3, compteur + 3);
-    }
-
-    public int getIndiceEcriture() {
-        switch (opCode) {
-            case INPUT -> {
-                return programme.get(compteur + 1);
-            }
-            case ADD, MULTIPLY, EQUALS, LESSTHAN-> {
-                return programme.get(compteur + 3);
-            }
-        }
-        System.out.println("indiceEcritureMauvais");
-        return -9999999;
+    public int getIndiceReelTroisiemeParametre() throws ModeInconnuException {
+        return getIndiceReelParametre(modeParametre3, compteur + 3);
     }
 }
+
 

@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import utils.MachineLauncher;
 
-public class MachineLauncherDay2Part1Test implements MachineLauncher {
+public class D2P1Test implements MachineLauncher {
 
     @Test
         public void testD2P1Exemple() throws Exception {
