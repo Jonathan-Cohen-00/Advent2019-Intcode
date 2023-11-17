@@ -1,18 +1,28 @@
 package machine;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Machine {
-    private final List<Integer> programme;
+    private final List<Long> programme;
+    private final boolean modeInteractif;
+    private final List<Long> listeOutput = new ArrayList<>();
     private int compteur = 0;
-    private int nextInput = 21112001;
+    private Long nextInput;
+    private int relativeBase = 0;
 
-    public Machine(List<Integer> programme) {
+    public Machine(List<Long> programme) {
         this.programme = programme;
+        modeInteractif = false;
     }
 
-    public void setNextInput(int specialInput) {
+    public Machine(List<Long> programme, boolean modeInteractif) {
+        this.programme = programme;
+        this.modeInteractif = modeInteractif;
+    }
+
+    public void setNextInput(Long specialInput) {
         this.nextInput = specialInput;
     }
 
@@ -20,67 +30,71 @@ public class Machine {
         generalLoop:
         while (true) {
             if (compteur < programme.size() && compteur >= 0) {
-                Instruction instruction = new Instruction(programme.get(compteur), programme, compteur);
+                Instruction instruction = new Instruction(Math.toIntExact(programme.get(compteur)), programme, compteur, relativeBase);
                 switch (instruction.getOpCode()) {
                     case ADD -> {
-                        int terme1 = instruction.getValeurPremierParametre();
-                        int terme2 = instruction.getValeurDeuxiemeParametre();
-                        int indiceEcritureSomme = instruction.getIndiceEcriture();
+                        long terme1 = programme.get(instruction.getIndiceReelPremierParametre());
+                        long terme2 = programme.get(instruction.getIndiceReelDeuxiemeParametre());
+                        int indiceEcritureSomme = instruction.getIndiceReelTroisiemeParametre();
                         this.programme.set(indiceEcritureSomme, terme1 + terme2);
                         compteur += 4;
                     }
                     case MULTIPLY -> {
-                        int facteur1 = instruction.getValeurPremierParametre();
-                        int facteur2 = instruction.getValeurDeuxiemeParametre();
-                        int indiceEcritureProduit = instruction.getIndiceEcriture();
-                        this.programme.set(indiceEcritureProduit, facteur1 * facteur2);
+                        long facteur1 = programme.get(instruction.getIndiceReelPremierParametre());
+                        long facteur2 = programme.get(instruction.getIndiceReelDeuxiemeParametre());
+                        int indiceEcritureProduit = instruction.getIndiceReelTroisiemeParametre();
+                        this.programme.set(indiceEcritureProduit, facteur2 * facteur1);
                         compteur += 4;
                     }
                     case INPUT -> {
-                        int nextInt;
-                        if (nextInput == 21112001) {
+                        Long nextInt;
+                        if (modeInteractif) {
                             System.out.println("Input ?");
                             Scanner saisie = new Scanner(System.in);
-                            nextInt = saisie.nextInt();
+                            nextInt = saisie.nextLong();
                         } else {
-                            nextInt = nextInput;
+                            nextInt = (nextInput);
                         }
-                        int positionNextInt = instruction.getIndiceEcriture();
+                        int positionNextInt = instruction.getIndiceReelPremierParametre();
                         programme.set(positionNextInt, nextInt);
                         compteur += 2;
                     }
                     case OUTPUT -> {
-                        int output = instruction.getValeurPremierParametre();
-                        System.out.println(output);
+                        long output = programme.get(instruction.getIndiceReelPremierParametre());
                         compteur += 2;
+                        listeOutput.add(output);
                     }
-                    case JUMPifTRUE -> {
-                        if ( instruction.getValeurPremierParametre()!=0){
-                            compteur = instruction.getValeurDeuxiemeParametre();
-                        }
-                        else compteur +=3;
+                    case JUMP_IF_TRUE -> {
+                        if (programme.get(instruction.getIndiceReelPremierParametre()) != 0) {
+                            compteur = Math.toIntExact(programme.get(instruction.getIndiceReelDeuxiemeParametre()));
+                        } else compteur += 3;
                     }
-                    case JUMPifFalse -> {
-                        if ( instruction.getValeurPremierParametre()==0){
-                            compteur = instruction.getValeurDeuxiemeParametre();
-                        }
-                        else compteur+=3;
+                    case JUMP_IF_FALSE -> {
+                        if (programme.get(instruction.getIndiceReelPremierParametre()) == 0) {
+                            compteur = Math.toIntExact(programme.get(instruction.getIndiceReelDeuxiemeParametre()));
+                        } else compteur += 3;
                     }
                     case LESSTHAN -> {
-                        if (instruction.getValeurPremierParametre() < instruction.getValeurDeuxiemeParametre()) {
-                            programme.set(instruction.getIndiceEcriture(), 1);
+                        if (programme.get(instruction.getIndiceReelPremierParametre()) < programme.get(instruction.getIndiceReelDeuxiemeParametre())) {
+                            programme.set(instruction.getIndiceReelTroisiemeParametre(), 1L);
                         } else {
-                            programme.set(instruction.getIndiceEcriture(), 0);
+                            programme.set(instruction.getIndiceReelTroisiemeParametre(), 0L);
                         }
                         compteur += 4;
                     }
                     case EQUALS -> {
-                        if (instruction.getValeurPremierParametre() == instruction.getValeurDeuxiemeParametre()) {
-                            programme.set(instruction.getIndiceEcriture(), 1);
+                        long terme1 = programme.get(instruction.getIndiceReelPremierParametre());
+                        long terme2 = programme.get(instruction.getIndiceReelDeuxiemeParametre());
+                        if (terme1 == terme2) {
+                            programme.set(instruction.getIndiceReelTroisiemeParametre(), 1L);
                         } else {
-                            programme.set(instruction.getIndiceEcriture(), 0);
+                            programme.set(instruction.getIndiceReelTroisiemeParametre(), 0L);
                         }
                         compteur += 4;
+                    }
+                    case ADJUSTS_RELATIVE_BASE -> {
+                        relativeBase += programme.get(instruction.getIndiceReelPremierParametre());
+                        compteur += 2;
                     }
                     case END -> {
                         break generalLoop;
@@ -90,5 +104,9 @@ public class Machine {
                 throw new PointeurException();
             }
         }
+    }
+
+    public List<Long> getListeOutput() {
+        return listeOutput;
     }
 }

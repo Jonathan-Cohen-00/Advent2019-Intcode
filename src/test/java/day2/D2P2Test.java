@@ -13,7 +13,7 @@ import java.util.List;
 
 import static parsers.Parsers.recupererListeEntiers;
 
-public class MachineLauncherDay2Part2Test implements MachineLauncher {
+public class D2P2Test implements MachineLauncher {
 
     @Test
     public void testd2p2() throws Exception {
@@ -21,13 +21,13 @@ public class MachineLauncherDay2Part2Test implements MachineLauncher {
     }
 
     public String day2Part2Scenario(String path) throws IOException, PointeurException, CodeInconnuException, ModeInconnuException {
-        List<Integer> integerList = recupererListeEntiers(path);
+        List<Long> integerList = recupererListeEntiers(path);
         int indexNom = 1;
         int indexVerbe = 2;
         for (int nom = 0; nom <= 99; nom++) {
             for (int verbe = 0; verbe <= 99; verbe++) {
-                integerList.set(indexNom, nom);
-                integerList.set(indexVerbe, verbe);
+                integerList.set(indexNom, (long) nom);
+                integerList.set(indexVerbe, (long) verbe);
                 Machine machine = new Machine(integerList);
                 machine.execute();
                 if (integerList.get(0) == 19690720) {
