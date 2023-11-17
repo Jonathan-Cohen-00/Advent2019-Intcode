@@ -15,21 +15,21 @@ public class Parsers {
     public static List<Long> recupererListeEntiers(String path) throws IOException {
         String input = Files.readString(Path.of(path));
         Pattern parserPattern = Pattern.compile("(-?[0-9]+),?");
-        List<Long> integerList = new ArrayList<>();
+        List<Long> longList = new ArrayList<>();
         Matcher parserMatcher = parserPattern.matcher(input);
         while (parserMatcher.find()) {
-            integerList.add(Long.parseLong(parserMatcher.group(1)));
+            longList.add(Long.parseLong(parserMatcher.group(1)));
         }
         for (int i = 0; i < 500; i++) {
-            integerList.add(0L);
+            longList.add(0L);
         }
-        return integerList;
+        return longList;
     }
 
-    public static List<Integer> recupererListeEntiersINCORRECTE(String path) throws IOException {
+    public static List<Long> recupererListeEntiersINCORRECTE(String path) throws IOException {
         String input = Files.readString(Path.of(path));
         String[] inputSansVirugle = input.split(",");
         List<String> liste = Arrays.asList(inputSansVirugle);
-        return liste.stream().map(k -> Integer.parseInt(k.trim())).toList();
+        return liste.stream().map(k -> Long.parseLong(k.trim())).toList();
     }
 }

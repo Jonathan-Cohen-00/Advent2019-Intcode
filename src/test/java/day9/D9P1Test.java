@@ -12,12 +12,10 @@ import java.util.List;
 public class D9P1Test implements MachineLauncher {
     @Test
     public void testd9p1() throws Exception {
-        List<Long> integerList = Parsers.recupererListeEntiers("src/main/resources/Day9Part1-Input");
+        List<Long> integerList = Parsers.recupererListeEntiers("src/main/resources/Day9-Input");
         Machine machine = new Machine(integerList);
         machine.setNextInput(1L);
         machine.execute();
-        List<Long> puzzleAnswer = new ArrayList<>();
-        puzzleAnswer.add(3460311188L);
-        Assert.assertEquals(machine.getListeOutput(), puzzleAnswer);
+        Assert.assertEquals(machine.getListeOutput(), List.of(3460311188L));
     }
 }
