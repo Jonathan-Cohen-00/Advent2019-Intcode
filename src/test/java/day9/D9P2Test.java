@@ -18,6 +18,6 @@ public class D9P2Test implements MachineLauncher {
         machine.execute();
         List<Long> puzzleAnswer = new ArrayList<>();
         puzzleAnswer.add(42202L);
-        Assert.assertEquals(machine.getListeOutput() , puzzleAnswer);
+        Assert.assertEquals(machine.getListeOutput(), puzzleAnswer);
     }
 }

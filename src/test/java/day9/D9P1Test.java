@@ -1,10 +1,12 @@
 package day9;
 
 import machine.Machine;
+import org.junit.Assert;
 import org.junit.Test;
 import parsers.Parsers;
 import utils.MachineLauncher;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class D9P1Test implements MachineLauncher {
@@ -14,6 +16,8 @@ public class D9P1Test implements MachineLauncher {
         Machine machine = new Machine(integerList);
         machine.setNextInput(1L);
         machine.execute();
-        System.out.println(machine.getListeOutput());
+        List<Long> puzzleAnswer = new ArrayList<>();
+        puzzleAnswer.add(3460311188L);
+        Assert.assertEquals(machine.getListeOutput(), puzzleAnswer);
     }
 }
