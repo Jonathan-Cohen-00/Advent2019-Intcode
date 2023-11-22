@@ -25,6 +25,20 @@ public class Parsers {
         }
         return longList;
     }
+    public static List<Integer> getIntegerListFromLongList(List<Long> longList) {
+        List<Integer> integerList = new ArrayList<>();
+        for (Long l : longList) {
+            integerList.add(Math.toIntExact(l));
+        }
+        return integerList;
+    }
+    public static List<Long> getLongListFromIntegerList (List<Integer> integerList){
+        List<Long> longList =new ArrayList<>();
+        for (int i : integerList
+             ) {longList.add((long) i);
+        }
+        return longList;
+    }
 
     public static List<Long> recupererListeEntiersINCORRECTE(String path) throws IOException {
         String input = Files.readString(Path.of(path));

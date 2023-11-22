@@ -16,10 +16,10 @@ import static parsers.Parsers.recupererListeEntiers;
 public class D2P2Test implements MachineLauncher {
     @Test
     public void testd2p2() throws Exception {
-        Assert.assertEquals(day2Part2Scenario("src/main/resources/Day2-Input"), "6577");
+        Assert.assertEquals(day2Part2Scenario(), "6577");
     }
-    public String day2Part2Scenario(String path) throws IOException, PointeurException, CodeInconnuException, ModeInconnuException {
-        List<Long> longList = recupererListeEntiers(path);
+    private String day2Part2Scenario() throws IOException, PointeurException, CodeInconnuException, ModeInconnuException {
+        List<Long> longList = recupererListeEntiers("src/main/resources/Day2-Input");
         int indexNom = 1;
         int indexVerbe = 2;
         for (int nom = 0; nom <= 99; nom++) {
@@ -31,7 +31,7 @@ public class D2P2Test implements MachineLauncher {
                 if (longList.get(0) == 19690720) {
                     System.out.println("nom = " + nom + "    verbe = " + verbe);
                     return String.valueOf(100 * nom + verbe);
-                } else longList = recupererListeEntiers(path);
+                } else longList = recupererListeEntiers("src/main/resources/Day2-Input");
             }
         }
         return "echec pas de solution";

@@ -9,8 +9,9 @@ public class Machine {
     private final boolean modeInteractif;
     private final List<Long> listeOutput = new ArrayList<>();
     private int compteur = 0;
-    private Long nextInput;
+    private List<Long> nextInputList;
     private int relativeBase = 0;
+    private int inputIterator = 0;
 
     public Machine(List<Long> programme) {
         this.programme = programme;
@@ -22,9 +23,9 @@ public class Machine {
         this.modeInteractif = modeInteractif;
     }
 
-    public void setNextInput(Long specialInput) {
-        this.nextInput = specialInput;
-    }
+    public void setNextInputList(List<Long> inputList) {
+        this.nextInputList = inputList ; }
+
 
     public void execute() throws PointeurException, CodeInconnuException, ModeInconnuException {
         generalLoop:
@@ -53,7 +54,8 @@ public class Machine {
                             Scanner saisie = new Scanner(System.in);
                             nextInt = saisie.nextLong();
                         } else {
-                            nextInt = (nextInput);
+                            nextInt = (nextInputList.get(inputIterator));
+                            inputIterator +=1 ;
                         }
                         int positionNextInt = instruction.getIndiceReelPremierParametre();
                         programme.set(positionNextInt, nextInt);
