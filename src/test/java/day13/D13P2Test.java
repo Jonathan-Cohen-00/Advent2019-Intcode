@@ -34,9 +34,7 @@ public class D13P2Test implements MachineLauncher {
             while (!win) {
             List<Long> longList = Parsers.recupererListeEntiers("src/main/resources/Day13-Input");
             longList.set(0, 2L);
-            Machine machine = new Machine(longList, false);
-            List <Long> X = (getLongListFromIntegerList(listeAleatoire(25)));
-            machine.setNextInputList(X);
+            Machine machine = new Machine(longList, true);
             machine.execute();
             List<Integer> listOutputAsInt = getIntegerListFromLongList(machine.getListeOutput());
             Matrice<Tile> matrice;
@@ -44,14 +42,11 @@ public class D13P2Test implements MachineLauncher {
             System.out.println(nombreBlocksOnScreen(matrice));
             if (nombreBlocksOnScreen(matrice) == 0) {
                 win = true;
+
             }
         }
     }
-//    public static void main(String[] args) throws Exception {
-//        while (true) {
-//            System.out.println(listeAleatoire(20));
-//        }
-//    }
+
     public static List<Integer> listeAleatoire(int tailleListe) {
         List<Integer> list = new ArrayList<>();
         while (list.size() < tailleListe) {

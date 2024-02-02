@@ -5,6 +5,14 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Machine {
+    private final boolean modeIntelligence;
+
+    public Machine(List<Long> programme, boolean modeInteractif, boolean modeIntelligence) {
+        this.modeIntelligence = modeIntelligence;
+        this.programme = programme;
+        this.modeInteractif = modeInteractif;
+    }
+
     private final List<Long> programme;
     private final boolean modeInteractif;
     private final List<Long> listeOutput = new ArrayList<>();
@@ -16,11 +24,13 @@ public class Machine {
     public Machine(List<Long> programme) {
         this.programme = programme;
         modeInteractif = false;
+        modeIntelligence = false;
     }
 
     public Machine(List<Long> programme, boolean modeInteractif) {
         this.programme = programme;
         this.modeInteractif = modeInteractif;
+        modeIntelligence = false;
     }
 
     public void setNextInputList(List<Long> inputList) {
@@ -64,6 +74,7 @@ public class Machine {
                     case OUTPUT -> {
                         long output = programme.get(instruction.getIndiceReelPremierParametre());
                         compteur += 2;
+                        System.out.print (output);
                         listeOutput.add(output);
                     }
                     case JUMP_IF_TRUE -> {
