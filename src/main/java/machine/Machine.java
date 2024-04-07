@@ -15,7 +15,7 @@ public class Machine {
 
     private final List<Long> programme;
     private final boolean modeInteractif;
-    private final List<Long> listeOutput = new ArrayList<>();
+    private List<Long> listeOutput = new ArrayList<>();
     private int compteur = 0;
     private List<Long> nextInputList;
     private int relativeBase = 0;
@@ -58,6 +58,9 @@ public class Machine {
                         compteur += 4;
                     }
                     case INPUT -> {
+                        if (modeIntelligence){
+                            listeOutput=new ArrayList<>();
+                        }
                         Long nextInt;
                         if (modeInteractif) {
                             System.out.println("Input ?");
@@ -74,7 +77,6 @@ public class Machine {
                     case OUTPUT -> {
                         long output = programme.get(instruction.getIndiceReelPremierParametre());
                         compteur += 2;
-                        System.out.print (output);
                         listeOutput.add(output);
                     }
                     case JUMP_IF_TRUE -> {
