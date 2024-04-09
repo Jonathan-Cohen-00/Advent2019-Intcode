@@ -10,10 +10,13 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "d13-start" ]
+    branches: 
+      - d13-start
+      - master
   pull_request:
-    branches: [ "d13-start" ]
-
+    branches: 
+      - d13-start
+      - master
 jobs:
   build:
 
